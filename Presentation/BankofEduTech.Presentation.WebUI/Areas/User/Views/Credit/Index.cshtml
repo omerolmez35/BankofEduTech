@@ -1,0 +1,385 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+@using BankofEduTech.Core.Application.Features.Queries.UserAccount.GetAllUserAccountActiveUser
+@model List<GetAllAccountQueryResponse>
+
+
+
+
+@if (Model[0].IsSuccess == true)
+{
+
+    <div class="modal fade text-left" id="success" tabindex="-1"
+         role="dialog" aria-labelledby="myModalLabel110"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+             role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title white" id="myModalLabel110">
+                        Kredi Ödeme Ekranı
+                    </h5>
+                    <button type="button" class="close"
+                            data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="installementsID" hidden />
+                    <div class="row">
+                        <div class="col-md-12 col-12">
+                            <label for="senderAccount">Ödenecek Hesap</label>
+                            <div class="form-group">
+                                <select id="senderAccount" class="choices form-select">
+
+                                    @foreach (var item in ViewBag.Accounts)
+                                    {
+                                        <option value="@item.AccountID">@item.AccountNumber  - @item.AccountName - @item.AccountBalance</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-12">
+                            <div class="col-md-4">
+                                <label>Taksit Sayısı</label>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="position-relative">
+                                        <input type="text" id="numberOfInstallements" class="form-control" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-12">
+                            <div class="col-md-4">
+                                <label>Taksit Tutarı</label>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group ">
+                                    <div class="position-relative">
+                                        <input type="text" id="amountOfInstallements" class="form-control" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-12">
+                            <div class="col-md-4">
+                                <label>Gecikme Faizi</label>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="position-relative">
+                                        <input type="text" id="delayInterest" class="form-control" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-12">
+                            <div class="col-md-4">
+                                <label>Toplam Tutar</label>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="position-relative">
+                                        <input type="text" id="totalAmount" class="form-control" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-light-secondary"
+                            data-bs-dismiss="modal">
+                        <i class="bx bx-x d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Vazgeç</span>
+                    </button>
+
+                    <button type="button" class="btn btn-success ml-1"
+                            onclick="payCredit()">
+                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">İşlemi Tamamla</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-2"></div>
+        <div class="col-xl-7">
+            <div class="card">
+
+                <div class="card-header">
+                    <h4>Hesap Hareketleri</h4>
+                    <p>Hesabınızda yapılan tüm hareketler listesi</p>
+                </div>
+                <div class="card-body">
+                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                                class="active"></li>
+                            @for (int i = 1; i < Model.Count; i++)
+                            {
+                                <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i"></li>
+                            }
+
+
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="~/template/assets/images/samples/back.jpg" class="d-block w-100" alt="...">
+
+                                <div class="carousel-caption d-none d-md-block mb-5">
+                                    <h1>@Model[0].AccountName</h1>
+                                    <h3>@Model[0].AccountBalance</h3><br />
+
+                                    <button class="btn btn-primary" onclick="getPaymentTable(@Model[0].AccountID)">Ödeme Tablosu</button>
+
+                                </div>
+                            </div>
+                            @for (int i = 1; i < Model.Count; i++)
+                            {
+                                <div class="carousel-item">
+                                    <img src="~/template/assets/images/samples/back.jpg" class="d-block w-100" alt="...">
+
+                                    <div class="carousel-caption d-none d-md-block mb-5">
+                                        <h1>@Model[i].AccountName</h1>
+                                        <h3>@Model[i].AccountBalance</h3><br />
+
+                                        <button class="btn btn-primary" onclick="getPaymentTable(@Model[i].AccountID)">Ödeme Tablosu</button>
+
+
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button"
+                           data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button"
+                           data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div id="table">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Taksit Sayısı</th>
+                                    <th>Taksit Tutarı</th>
+                                    <th>Faiz Tutarı</th>
+                                    <th>Anapara Tutarı</th>
+                                    <th>Kalan Anapara</th>
+                                    <th>İşlem Tarihi</th>
+                                    <th>Durum</th>
+                                    <th>#</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+}
+
+@if (Model[0].IsSuccess == false)
+{
+    <div class="row">
+        <div class="col-xl-2"></div>
+        <div class="col-xl-7">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+
+                    <h2>Kredi Hesabınız Bulunmamaktadır.</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+    function getPaymentTable(e) {
+        console.log(e);
+        $.ajax({
+            url: '/User/Credit/GetCreditPaymentTable?accountID=' + e, 
+            method: 'GET',
+            success: function (result) {
+                console.log(result);
+                var tableElement = $('#table tbody');
+                tableElement.empty(); 
+
+                if (result.length > 0) {
+                    for (i = 0; i < result.length; i++) {
+                        var date = new Date();
+                        if (result[i].isPaid) {
+                            var row = '<tr class="table-success">' +
+                                '<td>' + result[i].numberOfInstallements + '</td>' +
+                                '<td>' + result[i].amountOfInstallements + '</td>' +
+                                '<td>' + result[i].amountOfInterest + '</td>' +
+                                '<td>' + result[i].amountOfPrincipal + '</td>' +
+                                '<td>' + result[i].restOfPrincipal + '</td>' +
+                                '<td>' + new Date(result[i].expireDate).toLocaleDateString('tr-TR') + '</td>' + 
+                                '<td colspan="2">Ödendi</td>' +
+                                '</tr>';
+                            tableElement.append(row);
+                        }
+
+                        else if (!result[i].isPaid && new Date(result[i].expireDate) < new Date()) {
+
+                            var row = '<tr class="table-danger">' +
+                                '<td>' + result[i].numberOfInstallements + '</td>' +
+                                '<td>' + result[i].amountOfInstallements + '</td>' +
+                                '<td>' + result[i].amountOfInterest + '</td>' +
+                                '<td>' + result[i].amountOfPrincipal + '</td>' +
+                                '<td>' + result[i].restOfPrincipal + '</td>' +
+                                '<td>' + new Date(result[i].expireDate).toLocaleDateString('tr-TR') + '</td>' + 
+                                '<td>Gecikmede</td>' +
+                                '<td><button onclick="getPayCredit(' + result[i].installementsID + ')" class="btn btn-success">Öde</button></td>' +
+                                '</tr>';
+                            tableElement.append(row);
+                        }
+                        else {
+                            var row = '<tr>' +
+                                '<td>' + result[i].numberOfInstallements + '</td>' +
+                                '<td>' + result[i].amountOfInstallements + '</td>' +
+                                '<td>' + result[i].amountOfInterest + '</td>' +
+                                '<td>' + result[i].amountOfPrincipal + '</td>' +
+                                '<td>' + result[i].restOfPrincipal + '</td>' +
+                                '<td>' + new Date(result[i].expireDate).toLocaleDateString('tr-TR') + '</td>' + 
+                                '<td>Vade Bekleniyor</td>' +
+                                '<td><button onclick="getPayCredit(' + result[i].installementsID + ')" class="btn btn-success">Öde</button></td>' +
+                                '</tr>';
+                            tableElement.append(row);
+                        }
+
+
+
+                    }
+                }
+                else {
+                    var row = '<tr>' +
+                        '<td colspan="4">Görüntülenecek hareket bulunamadı.</td>' +
+
+                        '</tr>';
+                    tableElement.append(row);
+                }
+
+            },
+            error: function (err) {
+                console.error('Hata oluştu:', err);
+            }
+        });
+    }
+    function getPayCredit(e) {
+
+        
+        $.ajax({
+            url: '/User/Credit/GetPayCredit?installementID=' + e, 
+            method: 'GET',
+            success: function (result) {
+                console.log(result);
+                if(result.isSuccess)
+                {
+
+                   
+                    document.getElementById("amountOfInstallements").value = result.amount;
+                    document.getElementById("delayInterest").value = result.delayInterest;
+                    document.getElementById("numberOfInstallements").value = result.numberOfInstallements + ". Taksit";
+                    document.getElementById("totalAmount").value = result.totalAmount;
+                    document.getElementById("installementsID").value = e;
+                    var successModal = new bootstrap.Modal(document.getElementById('success'));
+                    successModal.show();
+                }
+                
+                else
+                {
+                Swal.fire({
+                    icon: "error",
+                    title: "Hata...",
+                    text: result.message
+
+                });
+                }
+               
+            },
+            error: function (err) {
+                console.error('Hata oluştu:', err);
+            }
+        });
+    }
+    function payCredit(e) {
+
+        var data = {
+            senderID: document.getElementById("senderAccount").value,
+            installementsID: document.getElementById("installementsID").value,
+            delayInterest: document.getElementById("delayInterest").value
+        };
+
+   
+        $.ajax({
+            type: "POST",
+            url: "/User/Credit/CreditPay", 
+           
+            data: data,       
+            success: function (result) {
+             
+                if (result.isSuccess) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Başarılı",
+                        text: result.message
+                    });
+                } else {
+                  
+                    Swal.fire({
+                        icon: "error",
+                        title: "Hata...",
+                        html: result.message
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+
+                console.error("Hata:", error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Sunucu hatası",
+                    text: "İşlem başarısız oldu. Lütfen daha sonra tekrar deneyin."
+                });
+            }
+        });
+    }
+</script>

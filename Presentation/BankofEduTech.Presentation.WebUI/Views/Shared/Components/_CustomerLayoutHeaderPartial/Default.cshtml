@@ -1,0 +1,71 @@
+﻿
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/template/assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="~/template/assets/vendors/iconly/bold.css">
+
+    <link rel="stylesheet" href="~/template/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="~/template/assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/template/assets/css/app.css">
+    <link rel="shortcut icon" href="~/template/assets/images/favicon.svg" type="image/x-icon">
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/template/assets/vendors/choices.js/choices.min.css" />
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="~/template/assets/vendors/simple-datatables/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft.signalr/6.0.1/signalr.min.js"></script> <!-- SignalR JS kütüphanesini ekle -->
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+    <style>
+        .notification-item {
+            padding: 10px 15px;
+        }
+
+            .notification-item.unread {
+                background-color: #f8f9fa;
+            }
+
+            .notification-item .notification-message {
+                font-size: 14px;
+                color: #495057;
+            }
+
+        .notification-count {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 0.75rem;
+            transform: translate(50%, -50%);
+        }
+
+        .mark-as-read.text-success {
+            color: #28a745 !important;
+            font-weight: bold;
+        }
+
+        /* Okunmamış bildirimler */
+        .notification-unread {
+            background-color: #f5f5f5; /* Açık gri arka plan */
+            font-weight: bold; /* Yazıyı kalın yap */
+        }
+
+        /* Okunmuş bildirimler */
+        .notification-read {
+            background-color: #e0e0e0; /* Daha sönük gri arka plan */
+            opacity: 0.6; /* Daha soluk göster */
+        }
+    </style>
+</head>

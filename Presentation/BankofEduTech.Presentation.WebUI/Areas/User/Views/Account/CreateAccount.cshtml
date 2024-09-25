@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewData["Title"] = "CreateAccount";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+    
+}
+@using BankofEduTech.Core.Application.Features.Commands.UserAccount.Create
+@model CreateUserAccountCommandRequest
+
+<div class="page-title">
+    <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Vadesiz Hesap Aç</h3>
+        </div>
+        <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/User/Home/Index">Anasayfa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Profil</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6 col-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Hesap Bilgileri</h4>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Hesap Adı</label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group has-icon-left">
+                                <div class="position-relative">
+                                    <input type="text" id="accountName" class="form-control"
+                                           placeholder="Hesap Adı" id="first-name-icon">
+                                    <div class="form-control-icon">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Para Birimi</label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group has-icon-left">
+                                <div class="position-relative">
+                                    <select id="currencyType" class="choices form-select">
+                                     @*    <option value="0">Seçiniz...</option> *@
+                                        <option value="1">TRY</option>
+                                        <option value="2">USD</option>
+                                        <option value="3">EUR</option>
+                                        
+                                       
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-end">
+                            <button onclick="createAccount()"
+                                    class="btn btn-primary me-1 mb-1">
+                                Hesap Aç
+                            </button>
+                            <button type="reset"
+                                    class="btn btn-light-secondary me-1 mb-1">
+                                Vazgeç
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function createAccount() {
+    
+            var data = {
+                
+                AccountName: document.getElementById("accountName").value,
+                Currency: document.getElementById("currencyType").value
+                
+
+            };
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: "/User/Account/CreateAccount", // Doğru URL'yi kullandığınızdan emin olun
+                contentType: "application/json", // JSON formatında veri gönderiyoruz
+                data: JSON.stringify(data), // Veriyi JSON formatına çevirin
+                success: function (result) {
+                    console.log(result);
+                    if (result.isSuccess == true) {
+                        Swal.fire({
+                            title: "İşlem başarılı!",
+                            text: "Hesap açma işlemi başarılı bir şekilde gerçekleştirildi!",
+                            icon: "success"
+                        });
+
+
+                    }
+                    else {
+                        var error = "";
+                        result.messages.forEach(function (element) {
+                            error += element + " <br>";
+                        });
+                        console.log(error);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Hata...",
+                            html: error
+
+                        });
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    // Hata durumunda yapılacaklar
+                    console.error("Hata:", error);
+                    alert("Güncelleme işlemi başarısız oldu.");
+                }
+            });
+        
+     
+    }
+</script>

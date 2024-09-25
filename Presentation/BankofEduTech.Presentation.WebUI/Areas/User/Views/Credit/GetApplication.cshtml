@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewData["Title"] = "GetApplication";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+@using BankofEduTech.Core.Application.Features.Queries.CustomerCredit.GetApplicationByUserId
+@model List<GetApplicationByUserIdQueryResponse>
+<div class="row" id="table-contexual">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Contextual classes</h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <p>
+                        Use contextual classes to color table rows or individual cells. Read full
+                        documnetation
+                        <a href="https://getbootstrap.com/docs/4.3/content/tables/#contextual-classes"
+                           target="_blank">here.</a>
+                    </p>
+                </div>
+                <!-- table contextual / colored -->
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Sıra No</th>
+                                <th>Kredi Tutarı</th>
+                                <th>Taksit Sayısı</th>
+                                <th>Faiz Oranı (%)</th>
+                                <th>Toplam Geri Ödeme</th>
+                                <th>Durum</th>
+                                <th>Başvuru Tarihi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(Model != null  || Model.Count() == 0)
+                            {
+                                int sayac = 1;
+                                foreach (var item in Model.OrderByDescending(x => x.CreatedDate))
+                                {
+                                    
+                                    if(item.CreditStatus == BankofEduTech.Core.Domain.Entities.CreditStatus.Onay)
+                                    {
+                                        <tr class="table-success">
+                                            
+                                            <td>@sayac</td>
+                                            <td>@item.AmountOfLoan</td>
+                                            <td>@item.CountofInstallements</td>
+                                            <td>@item.InterestRate</td>
+                                            <td>@item.TotalBackPaymnent</td>
+                                            <td>Onaylandı</td>
+                                            <td>@item.CreatedDate</td>
+                                            
+                                        </tr>
+                                    }
+
+                                    if (item.CreditStatus == BankofEduTech.Core.Domain.Entities.CreditStatus.Red)
+                                    {
+                                        <tr class="table-danger">
+
+                                            <td>@sayac</td>
+                                            <td>@item.AmountOfLoan</td>
+                                            <td>@item.CountofInstallements</td>
+                                            <td>@item.InterestRate</td>
+                                            <td>@item.TotalBackPaymnent</td>
+                                            <td>Reddedildi</td>
+                                            <td>@item.CreatedDate</td>
+
+                                        </tr>
+                                    }
+                                    if (item.CreditStatus == BankofEduTech.Core.Domain.Entities.CreditStatus.Beklemede)
+                                    {
+                                        <tr class="table-warning">
+
+                                            <td>@sayac</td>
+                                            <td>@item.AmountOfLoan</td>
+                                            <td>@item.CountofInstallements</td>
+                                            <td>@item.InterestRate</td>
+                                            <td>@item.TotalBackPaymnent</td>
+                                            <td>Beklemede</td>
+                                            <td>@item.CreatedDate</td>
+
+                                        </tr>
+                                    }
+                                    sayac++;
+                                }
+
+                            }
+                            
+                        
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

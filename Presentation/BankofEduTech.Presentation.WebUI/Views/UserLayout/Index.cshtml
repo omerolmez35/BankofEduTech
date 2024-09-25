@@ -1,0 +1,294 @@
+﻿@using BankofEduTech.Core.Application.StaticServices.BankofEduTech.Core.Application.StaticServices
+@inject ClaimService ClaimService
+@* @using BankofEduTech.Core.Application.Features.Queries.Notification.GetActiveLastNotification
+@model List<GetActiveLastNotificationQueryResponse> *@
+
+@{
+    
+    Layout = null;
+    // var notifications = ViewData["Notifications"] as List<BankofEduTech.Core.Application.Features.Queries.Notification.GetActiveLastNotification.GetActiveLastNotificationQueryResponse>;
+
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+@await Component.InvokeAsync("_CustomerLayoutHeaderPartial")
+
+<body>
+    <div id="app">
+
+        @if (ClaimService.Role == "Customer")
+        {
+            @await Component.InvokeAsync("_CustomerLayoutSidebarPartial")
+        }
+        @if (ClaimService.Role == "Admin")
+        {
+            @await Component.InvokeAsync("_AdminLayoutSidebarPartial")
+        }
+
+        <div id="main" class='layout-navbar'>
+           @await Component.InvokeAsync("_CustomerLayoutNavbarPartial")
+         @*    <header class='mb-3'>
+
+                <nav class="navbar navbar-expand navbar-light ">
+                    <div class="container-fluid">
+                        <a href="#" class="burger-btn d-block">
+                            <i class="bi bi-justify fs-3"></i>
+                        </a>
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                <li class="nav-item dropdown me-1">
+                                    <a class="nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                                       aria-expanded="false">
+                                        <i class='bi bi-envelope bi-sub fs-4 text-gray-600'></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                        <li>
+                                            <h6 class="dropdown-header">Mail</h6>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#">
+                                                Yeni mail yok.
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item dropdown me-3">
+                                    <a class="nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class='bi bi-bell bi-sub fs-4 text-gray-600'></i>
+                                        <span class="badge bg-danger notification-count"></span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                        <li>
+                                            <h6 class="dropdown-header">Notifications</h6>
+                                        </li>
+
+                                        @if (notifications != null && notifications.Any())
+                                        {
+                                            @foreach (var item in notifications.Take(3))
+                                            {
+                                                <li class="dropdown-item notification-item d-flex align-items-start">
+                                                    <a href="#" class="flex-grow-1">
+                                                        <i class="bi bi-envelope me-2"></i>
+                                                        <span class="notification-message">@item.Message</span>
+                                                    </a>
+                                                    <a href="#" class="mark-as-read text-muted small" data-read="false">Okundu olarak işaretle</a>
+                                                </li>
+                                            }
+                                        }
+                                        @if (notifications == null)
+
+                                        {
+                                            <p>Herhangi bir bildiriminiz yok.</p>
+                                        }
+
+
+                                        <li class="dropdown-item text-center">
+                                            <button class="btn btn-sm btn-outline-primary" id="mark-all-read">Tümünü okundu olarak işaretle</button>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+
+                            </ul>
+                            <div class="dropdown">
+                                <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="user-menu d-flex">
+                                        <div class="user-name text-end me-3 mt-2">
+                                            <h6 class="mb-0 text-gray-600">@ClaimService.Name</h6>
+                                            <p class="mb-0 text-sm text-gray-600"></p>
+                                        </div>
+                                        <div class="user-img d-flex align-items-center">
+                                            <div class="avatar avatar-md">
+                                                <img src="assets/images/faces/1.jpg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                    <li>
+                                        <h6 class="dropdown-header">Merhaba, @ClaimService.Name!</h6>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/User/Account">
+                                            <i class="icon-mid bi bi-person me-2"></i> Profil
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/Login">
+                                            <i class="icon-mid bi bi-box-arrow-left me-2"></i> Çıkış Yap
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header> *@
+          
+            <div id="main-content">
+
+                <div class="page-heading">
+
+                    <section class="section">
+                        @RenderBody()
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const notificationItems = document.querySelectorAll('.notification-item .notification-message');
+            const maxLength = 30; // Mesaj uzunluğunu belirliyoruz
+
+            // Mesajları kesip "..." eklemek için
+            notificationItems.forEach(item => {
+                if (item.textContent.length > maxLength) {
+                    item.textContent = item.textContent.substring(0, maxLength) + '...';
+                }
+            });
+
+            // Bildirim üzerine tıklama olayı
+            document.querySelectorAll('.notification-item > a').forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    // Burada bildirim tıklandığında yapılacak işlemleri belirleyebilirsin
+                    alert('Bildirim tıklandı: ' + this.querySelector('.notification-message').textContent);
+                });
+            });
+
+            // Tek tek bildirimleri okundu olarak işaretlemek için
+            document.querySelectorAll('.mark-as-read').forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const notification = this.closest('.notification-item');
+                    notification.classList.remove('unread');
+                    this.textContent = "Okundu";
+                    this.classList.add('text-success');
+                    this.dataset.read = 'true';
+
+                    updateNotificationCount(); // Bildirim sayısını güncelle
+                });
+            });
+
+            // Tüm bildirimleri okundu olarak işaretleme
+            document.getElementById('mark-all-read').addEventListener('click', function () {
+                document.querySelectorAll('.mark-as-read').forEach(button => {
+                    const notification = button.closest('.notification-item');
+                    notification.classList.remove('unread');
+                    button.textContent = "Okundu";
+                    button.classList.add('text-success');
+                    button.dataset.read = 'true';
+                });
+
+                updateNotificationCount(); // Bildirim sayısını güncelle
+            });
+
+            // Bildirim sayısını güncelleyen fonksiyon
+            function updateNotificationCount() {
+                const unreadCount = document.querySelectorAll('.mark-as-read[data-read="false"]').length;
+                const notificationCountBadge = document.querySelector('.notification-count');
+                notificationCountBadge.textContent = unreadCount;
+
+                // Eğer okunmamış bildirim yoksa bildirim sayacını gizle
+                if (unreadCount === 0) {
+                    notificationCountBadge.style.display = 'none';
+                } else {
+                    notificationCountBadge.style.display = 'inline-block';
+                }
+            }
+
+            updateNotificationCount(); // Sayfa yüklendiğinde sayacı güncelle
+        });
+
+
+
+        // function SignalRTaskNotificationConnection() {
+        //     try {
+        //         var connection = new signalR.HubConnectionBuilder()
+        //             .withUrl("/notificationhub")
+        //             /* .configureLogging(signalR.LogLevel.Information)*/
+        //             .build();
+
+        //         connection.start().then(function () {
+        //             console.log("Task Notification SignalR bağlantısı başarıyla kuruldu.");
+
+        //             //var userId = $("#UserId").val();
+        //             //connection.invoke("Connect", userId).catch(function (err) {
+        //             //    console.error("SignalR bağlantı hatası:", err.toString());
+        //             //});
+        //             var userId = $("#UserId").val();
+        //             if (userId) {
+        //                 connection.invoke("AWakenings", userId)
+        //                     .catch(function (err) {
+        //                         console.error("SignalR 'AWakenings' çağrı hatası:", err.toString());
+        //                     });
+        //             } else {
+        //                 console.warn("UserId bulunamadı.");
+        //             }
+        //             connection.on("ReceiveAWakenings", function (response) {
+
+        //                 var result = JSON.parse(response);
+        //                 updateTaskList(result);
+        //             });
+
+        //             connection.on("ReceiveNotification", function (message) {
+
+        //                 try {
+        //                     var result = JSON.parse(message);
+        //                     updateTaskList(result);
+
+        //                 } catch (parseErr) {
+        //                     //console.error("ReceiveMessageAsync parsing hatası:", parseErr.toString());
+        //                 }
+        //             });
+
+
+
+        //         }).catch(function (err) {
+        //             localStorage.setItem('serviceState', 'offline');
+        //             updateServiceState('offline');
+
+        //             if (window.location.pathname === "/device-management/device-operations") {
+        //                 getDeviceGrid();
+        //             }
+        //             console.error("SignalR başlatma hatası:", err.toString());
+        //         });
+        //     } catch (e) {
+        //         console.error("SignalR bağlantı hatası:", e.toString());
+        //     }
+        // }
+
+
+
+
+
+  
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.18/signalr.min.js"></script>
+    @await Component.InvokeAsync("_CustomerLayoutScriptPartial")
+
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf")
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

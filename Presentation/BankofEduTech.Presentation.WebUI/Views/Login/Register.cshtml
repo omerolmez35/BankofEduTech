@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_LoginLayoout.cshtml";
+}
+
+@using BankofEduTech.Core.Application.Features.Commands.AppUser.Create
+@model CreateAppUserCommandRequest
+
+<div id="auth">
+
+    <div class="row h-100">
+        <div class="col-lg-5 col-12">
+            <div id="auth-left">
+                @*  <div class="auth-logo">
+                <a href="index.html"><img src="~/template/assets/images/logo/logo.png" alt="Logo"></a>
+                </div> *@
+                <h1 class="auth-title">Kayıt Ol</h1>
+
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" asp-for="Name" placeholder="Ad">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" asp-for="Surname" placeholder="Soyad">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" asp-for="IdentityNumber" placeholder="TC Kimlik No">
+                        <div class="form-control-icon">
+                            <i class="bi bi-key"></i>
+                        </div>
+                    </div>
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" asp-for="Email" placeholder="Email">
+                        <div class="form-control-icon">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+                    </div>
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" asp-for="UserName" placeholder="Kullanıcı Adı">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="password" class="form-control form-control-xl" asp-for="Password" placeholder="Şifre">
+                        <div class="form-control-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                    </div>
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="password" class="form-control form-control-xl" asp-for="ConfirmPassword" placeholder="Şifre Doğrulama">
+                        <div class="form-control-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Kayıt Ol</button>
+                </form>
+                <div class="text-center mt-5 text-lg fs-4">
+                    <p class='text-gray-600'>
+                        Zaten hesabınız var mı? <a href="auth-login.html"
+                                                   class="font-bold">
+                            Giriş Yap
+                        </a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 d-none d-lg-block">
+            <div id="auth-right">
+            </div>
+        </div>
+    </div>
+
+</div>

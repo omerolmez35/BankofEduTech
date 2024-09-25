@@ -1,134 +1,56 @@
-﻿@{
-	Layout = null;
+﻿@using BankofEduTech.Core.Application.Features.Queries.AppUser.LoginUser
+@model LoginUserQueryRequest
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LoginLayoout.cshtml";
+ 
 }
-<!--
-	Author: W3layouts
-	Author URL: http://w3layouts.com
-	License: Creative Commons Attribution 3.0 Unported
-	License URL: http://creativecommons.org/licenses/by/3.0/
--->
 
-<!DOCTYPE html>
-<html>
+<div id="auth">
 
-<!-- Head -->
-<head>
+    <div class="row h-100">
+        <div class="col-lg-5 col-12">
+            <div id="auth-left">
+              
+                <h1 class="auth-title">Giriş Yap.</h1>
+@*                 <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
+ *@
+                <form method="post">
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" asp-for="Username" class="form-control form-control-xl" placeholder="Kullanıcı adı">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="password" asp-for="Password" class="form-control form-control-xl" placeholder="Şifre">
+                        <div class="form-control-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                    </div>
+@*                     <div class="form-check form-check-lg d-flex align-items-end">
+                        <input class="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label text-gray-600" for="flexCheckDefault">
+                            Keep me logged in
+                        </label>
+                    </div> *@
+                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Giriş Yap</button>
+                </form>
+                <div class="text-center mt-5 text-lg fs-4">
+                    <p class="text-gray-600">
+                        Bir hesabınız yok mu? <a href="/Login/Register"
+                                                  class="font-bold">
+                            Kayıt Ol
+                        </a>.
+                    </p>
+                    <p><a class="font-bold" href="auth-forgot-password.html">Şifrenizi mi unuttunuz?</a>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 d-none d-lg-block">
+            <div id="auth-right">
+            </div>
+        </div>
+    </div>
 
-	<title>LOGIN - BANK OF EDUTECH</title>
-
-	<!-- Meta-Tags -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="keywords" content="Existing Login Form Widget Responsive, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design">
-	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-	<!-- //Meta-Tags -->
-
-	<link href="~/register/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
-
-	<!-- Style -->
-	<link rel="stylesheet" href="~/register/css/style.css" type="text/css" media="all">
-
-	<!-- Fonts -->
-	<link href="//fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
-	<!-- //Fonts -->
-
-</head>
-<!-- //Head -->
-<!-- Body -->
-<body>
-
-	<h1>GİRİŞ FORMU</h1>
-
-	<div class="w3layoutscontaineragileits">
-		<h2>Giriş Yap</h2>
-		<form action="#" method="post">
-			<input type="email" Name="Username" placeholder="Email" required="">
-			<input type="password" Name="Password" placeholder="Şifre" required="">
-			<ul class="agileinfotickwthree">
-				<li>
-					<input type="checkbox" id="brand1" value="">
-					<label for="brand1"><span></span>Beni Hatırla</label>
-					<a href="#">Şifremi Unuttum</a>
-				</li>
-			</ul>
-			<div class="aitssendbuttonw3ls">
-				<input type="submit" value="Giriş">
-				<p> Yeni bir hesap açmak için <span>→</span> <a class="w3_play_icon1" href="#small-dialog1"> buraya tıklayın</a></p>
-				<div class="clear"></div>
-			</div>
-		</form>
-	</div>
-
-	<!-- for register popup -->
-	<div id="small-dialog1" class="mfp-hide">
-		<div class="contact-form1">
-			<div class="contact-w3-agileits">
-				<h3>Kayıt Formu</h3>
-				<form action="#" method="post">
-					<div class="form-sub-w3ls">
-						<input placeholder="Kullanıcı adı..." type="text" required="">
-						<div class="icon-agile">
-							<i class="fa fa-user" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="form-sub-w3ls">
-						<input placeholder="Email..." class="mail" type="email" required="">
-						<div class="icon-agile">
-							<i class="fa fa-envelope-o" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="form-sub-w3ls">
-						<input placeholder="Şifre..." type="password" required="">
-						<div class="icon-agile">
-							<i class="fa fa-unlock-alt" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="form-sub-w3ls">
-						<input placeholder="Şifre Tekrar" type="password" required="">
-						<div class="icon-agile">
-							<i class="fa fa-unlock-alt" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="login-check">
-						<label class="checkbox"><input type="checkbox" name="checkbox" checked="">Tüm şartları kabul ediyorum.</label>
-					</div>
-					<div class="submit-w3l">
-						<input type="submit" value="Kayıt Ol">
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- //for register popup -->
-
-	@* <div class="w3footeragile">
-		<p> &copy; </p>
-	</div> *@
-
-
-	<script type="text/javascript" src="~/register/js/jquery-2.1.4.min.js"></script>
-
-	<!-- pop-up-box-js-file -->
-	<script src="~/register/js/jquery.magnific-popup.js" type="text/javascript"></script>
-	<!--//pop-up-box-js-file -->
-	<script>
-		$(document).ready(function () {
-			$('.w3_play_icon,.w3_play_icon1,.w3_play_icon2').magnificPopup({
-				type: 'inline',
-				fixedContentPos: false,
-				fixedBgPos: true,
-				overflowY: 'auto',
-				closeBtnInside: true,
-				preloader: false,
-				midClick: true,
-				removalDelay: 300,
-				mainClass: 'my-mfp-zoom-in'
-			});
-
-		});
-	</script>
-
-</body>
-<!-- //Body -->
-
-</html>
+</div>

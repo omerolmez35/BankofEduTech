@@ -1,0 +1,140 @@
+﻿<script src="~/template/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="~/template/assets/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/template/assets/vendors/apexcharts/apexcharts.js"></script>
+@*    <script src="~/template/assets/js/pages/dashboard.js"></script> *@
+@* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> *@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/template/assets/js/main.js"></script>
+<script src="~/template/assets/vendors/choices.js/choices.min.js"></script>
+<script src="~/template/assets/vendors/simple-datatables/simple-datatables.js"></script>
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+@* <script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notificationhub")
+        .build();
+
+    connection.on("ReceiveNotification", function (message) {
+        // Bildirimi ekrana yazdır
+        console.log("Yeni Bildirim: " + message);
+        alert("Yeni Bildirim: " + message);
+    });
+
+    connection.start().catch(function (err) {
+        return console.error(err.toString());
+    });
+</script> *@
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).on('click', '.mark-as-read', function (event) {
+        event.preventDefault(); // Varsayılan davranışı engelle
+        const $this = $(this);
+
+        notification.classList.remove('unread');
+        this.textContent = "Okundu";
+        this.classList.add('text-success');
+        this.dataset.read = 'true';
+    });
+
+
+    // $(document).ready(() => {
+    //     var connection = new signalR.HubConnectionBuilder()
+    //         .withUrl("https://localhost:7098/NotificationHub")
+    //         .build();
+
+    //     // Başlangıçta bağlantı durumunu göster
+    //     $("#connstatus").text("Bağlantı kuruluyor...");
+
+    //     // Bağlantıyı başlat
+    //     connection.start().then(() => {
+    //         $("#connstatus").text("Bağlantı başarılı!");
+    //         // Giriş yapan kullanıcının bildirimlerini al
+    //         connection.invoke("CurrentNotification");
+    //     }).catch((err) => {
+    //         $("#connstatus").text("Bağlantı hatası!");
+    //         console.error(err);
+    //     });
+
+    //     // Sunucudan gelen bildirimleri dinle
+    //     connection.on("ReceiveCurrentNotification", (notifications) => {
+    //         $("#notificationList").empty();
+
+    //         console.log(notifications);
+    //         for (let i = 0; i < 3; i++) {
+    //             const notification = notifications[i];
+
+    //             // Bildirimi 'isRead' durumuna göre sınıf ekleyerek oluştur
+    //             const notificationItem = `
+    //                     <li class="dropdown-item notification-item d-flex align-items-start ${notification.isRead ? 'notification-read' : 'notification-unread'}">
+    //                         <a href="#" class="flex-grow-1">
+    //                             <i class="bi bi-envelope me-2"></i>
+    //                             <span class="notification-message">${notification.message}</span>
+    //                         </a>
+    //                         <a href="#" class="mark-as-read text-muted small" data-read="${notification.isRead}">Okundu olarak işaretle</a>
+    //                     </li>
+    //                 `;
+
+    //             // Bildirimi listeye ekle
+    //             $("#notificationList").append(notificationItem);
+    //         }
+         
+    //     });
+    // });
+
+
+     
+</script>
+<script type="text/javascript">
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notificationHub")
+        .build();
+
+    connection.on("ReceiveNotification", function (message) {
+        console.log("Yeni bildirim:", message);
+        toastr.success(message);
+        // Burada bildirimi UI'da göster
+    });
+
+    // Bağlantıyı başlat
+    connection.start().then(function () {
+        console.log("SignalR hub'a bağlandı.");
+        connection.invoke("CurrentNotification");
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    connection.on("ReceiveCurrentNotification", (notifications) => {
+        $("#notificationList").empty();
+
+        console.log(notifications);
+        for (let i = 0; i < 3; i++) {
+            const notification = notifications[i];
+
+            // Bildirimi 'isRead' durumuna göre sınıf ekleyerek oluştur
+            const notificationItem = `
+                            <li class="dropdown-item notification-item d-flex align-items-start ${notification.isRead ? 'notification-read' : 'notification-unread'}">
+                                <a href="#" class="flex-grow-1">
+                                    <i class="bi bi-envelope me-2"></i>
+                                    <span class="notification-message">${notification.message}</span>
+                                </a>
+                                <a href="#" class="mark-as-read text-muted small" data-read="${notification.isRead}">Okundu olarak işaretle</a>
+                            </li>
+                        `;
+
+            // Bildirimi listeye ekle
+            $("#notificationList").append(notificationItem);
+        }
+
+    });
+</script>
+<script>
+    // Simple Datatable
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+</script>

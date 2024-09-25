@@ -1,0 +1,14 @@
+2024-09-25 00:48:18.170 +03:00 [INF] User profile is available. Using 'C:\Users\omrol\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-09-25 00:48:20.384 +03:00 [INF] Now listening on: https://localhost:7244
+2024-09-25 00:48:20.384 +03:00 [INF] Now listening on: http://localhost:5180
+2024-09-25 00:48:20.387 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-09-25 00:48:20.387 +03:00 [INF] Hosting environment: Development
+2024-09-25 00:48:20.387 +03:00 [INF] Content root path: C:\Users\omrol\source\repos\BankofEduTech\API\BankofEduTech.API.WebAPI\
+2024-09-25 00:48:21.507 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7244/swagger/index.html - -
+2024-09-25 00:48:21.935 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7244/swagger/index.html - - - 200 - text/html;charset=utf-8 434.8239ms
+2024-09-25 00:48:21.949 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7244/_vs/browserLink - -
+2024-09-25 00:48:21.949 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7244/_framework/aspnetcore-browser-refresh.js - -
+2024-09-25 00:48:21.957 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7244/_framework/aspnetcore-browser-refresh.js - - - 200 13784 application/javascript;+charset=utf-8 8.6121ms
+2024-09-25 00:48:22.032 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7244/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 83.4876ms
+2024-09-25 00:48:22.077 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7244/swagger/v1/swagger.json - -
+2024-09-25 00:48:22.254 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7244/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 176.8177ms

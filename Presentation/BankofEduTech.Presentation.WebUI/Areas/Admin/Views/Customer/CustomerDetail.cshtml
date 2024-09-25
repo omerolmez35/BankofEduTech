@@ -1,0 +1,518 @@
+﻿@{
+    ViewData["Title"] = "CustomerDetail";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+@using BankofEduTech.Core.Application.ViewModels
+@model CustomerDetailViewModel
+
+<div class="col-md-12">
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Müşteri Bilgileri</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-2">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                         aria-orientation="vertical">
+                        <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
+                           href="#v-pills-home" role="tab" aria-controls="v-pills-home"
+                           aria-selected="true">Müşteri Bilgileri</a>
+                        <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
+                           href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
+                           aria-selected="false">Hesaplar</a>
+                        <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                           href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
+                           aria-selected="false">Krediler</a>
+                        <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
+                           href="#v-pills-settings" role="tab" aria-controls="v-pills-settings"
+                           aria-selected="false">Kredi Başvuruları</a>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                             aria-labelledby="v-pills-home-tab">
+                            <div class="card">
+                                @*   <div class="card-header">
+                                <h4 class="card-title">Profil Bilgileri</h4>
+                                </div> *@
+                                <div class="card-content">
+                                    <div class="card-body">
+
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Ad</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" value="@Model.AccountInfo.Name" id="Name" class="form-control"
+                                                                   placeholder="Ad" id="first-name-icon">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-person"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label>Soyad</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" value="@Model.AccountInfo.Surname" id="Surname" class="form-control"
+                                                                   placeholder="Soyad" id="first-name-icon">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-person"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label>İl</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" value="@Model.AccountInfo.City" id="City" class="form-control"
+                                                                   placeholder="İl" id="first-name-icon">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-person"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label>İlçe</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="text" value="@Model.AccountInfo.District" id="District" class="form-control"
+                                                                   placeholder="İlçe" id="first-name-icon">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-person"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-4">
+                                                    <label>Email</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="email" id="Email" value="@Model.AccountInfo.Email" class="form-control"
+                                                                   placeholder="Email" id="first-name-icon">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-envelope"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Telefon</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group has-icon-left">
+                                                        <div class="position-relative">
+                                                            <input type="number" value="@Model.AccountInfo.PhoneNumber" id="PhoneNumber" class="form-control"
+                                                                   placeholder="Telefon">
+                                                            <div class="form-control-icon">
+                                                                <i class="bi bi-phone"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-12 d-flex justify-content-end">
+                                                    <button onclick="updateUser()"
+                                                            class="btn btn-primary me-1 mb-1">
+                                                        Güncelle
+                                                    </button>
+                                                    <button type="reset"
+                                                            class="btn btn-light-secondary me-1 mb-1">
+                                                        Reset
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                             aria-labelledby="v-pills-profile-tab">
+                            <div class="col-12">
+                                <div class="card">
+                                    @*   <div class="card-header">
+                                    <h4 class="card-title">Hoverable rows</h4>
+                                    </div> *@
+                                    <div class="card-content">
+                                        <button class="btn btn-primary" onclick="showCreateModal('@Model.AccountInfo.Id')" data-bs-toggle="modal" data-bs-target="#success">HESAP AÇ</button>
+
+                                        <div id="table">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Hesap Adı</th>
+                                                            <th>Hesap Numarası</th>
+                                                            <th>Hesap Türü</th>
+                                                            <th>Döviz Türü</th>
+                                                            <th>Açılış Tarihi</th>
+                                                            <th>Bakiye</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="table">
+
+
+                                                        @if (Model.AllAccount[0].IsSuccess)
+                                                        {
+                                                            @foreach (var account in Model.AllAccount)
+                                                            {
+                                                                <tr>
+                                                                    <td>@account.AccountName</td>
+                                                                    <td>@account.AccountNumber</td>
+                                                                    <td>@account.AccountType</td>
+                                                                    <td>@account.AccountCurrency</td>
+                                                                    <td>@account.CreatedDate.ToShortDateString()</td>
+                                                                    <td>@account.AccountBalance</td>
+                                                                </tr>
+                                                            }
+                                                        }
+
+
+                                                        @if (!Model.AllAccount[0].IsSuccess)
+                                                        {
+                                                            @foreach (var account in Model.AllAccount)
+                                                            {
+                                                                <tr>
+                                                                    <td colspan="6">HESAP BULUNAMADI</td>
+
+                                                                </tr>
+                                                            }
+                                                        }
+
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                             aria-labelledby="v-pills-messages-tab">
+                            <div class="col-12">
+                                <div class="card">
+                                    @*   <div class="card-header">
+                                    <h4 class="card-title">Hoverable rows</h4>
+                                    </div> *@
+                                    <div class="card-content">
+
+                                        <div class="table-responsive">
+                                            <table class="table table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Hesap Adı</th>
+                                                        <th>Hesap Numarası</th>
+                                                        <th>Hesap Türü</th>
+                                                        <th>Döviz Türü</th>
+                                                        <th>Açılış Tarihi</th>
+                                                        <th>Borç</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (!Model.AllCreditAccount[0].IsSuccess)
+                                                    {
+                                                        <tr>
+                                                            <td colspan="6">KREDİ HESABI BULUNMAMAKTADIR.</td>
+
+                                                        </tr>
+
+                                                    }
+                                                    @if (Model.AllCreditAccount[0].IsSuccess)
+                                                    {
+                                                        @foreach (var account in Model.AllCreditAccount)
+                                                        {
+                                                            <tr>
+                                                                <td>@account.AccountName</td>
+                                                                <td>@account.AccountNumber</td>
+                                                                <td>@account.AccountType</td>
+                                                                <td>@account.AccountCurrency</td>
+                                                                <td>@account.CreatedDate.ToShortDateString()</td>
+                                                                <td>@account.AccountBalance</td>
+                                                            </tr>
+                                                        }
+                                                    }
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
+                             aria-labelledby="v-pills-settings-tab">
+                            <div class="col-12">
+                                <div class="card">
+                                    @*   <div class="card-header">
+                                    <h4 class="card-title">Hoverable rows</h4>
+                                    </div> *@
+                                    <div class="card-content">
+
+                                        <div class="table-responsive">
+                                            <table class="table mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sıra No</th>
+                                                        <th>Kredi Tutarı</th>
+                                                        <th>Taksit Sayısı</th>
+                                                        <th>Faiz Oranı (%)</th>
+                                                        <th>Toplam Geri Ödeme</th>
+                                                        <th>Durum</th>
+                                                        <th>Başvuru Tarihi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model != null || Model.AllApplication.Count() == 0)
+                                                    {
+                                                        int sayac = 1;
+                                                        foreach (var item in Model.AllApplication.OrderByDescending(x => x.CreatedDate))
+                                                        {
+
+                                                            if (item.CreditStatus == BankofEduTech.Core.Domain.Entities.CreditStatus.Onay)
+                                                            {
+                                                                <tr class="table-success">
+
+                                                                    <td>@sayac</td>
+                                                                    <td>@item.AmountOfLoan</td>
+                                                                    <td>@item.CountofInstallements</td>
+                                                                    <td>@item.InterestRate</td>
+                                                                    <td>@item.TotalBackPaymnent</td>
+                                                                    <td>Onaylandı</td>
+                                                                    <td>@item.CreatedDate</td>
+
+                                                                </tr>
+                                                            }
+
+                                                            if (item.CreditStatus == BankofEduTech.Core.Domain.Entities.CreditStatus.Red)
+                                                            {
+                                                                <tr class="table-danger">
+
+                                                                    <td>@sayac</td>
+                                                                    <td>@item.AmountOfLoan</td>
+                                                                    <td>@item.CountofInstallements</td>
+                                                                    <td>@item.InterestRate</td>
+                                                                    <td>@item.TotalBackPaymnent</td>
+                                                                    <td>Reddedildi</td>
+                                                                    <td>@item.CreatedDate</td>
+
+                                                                </tr>
+                                                            }
+                                                            if (item.CreditStatus == BankofEduTech.Core.Domain.Entities.CreditStatus.Beklemede)
+                                                            {
+                                                                <tr class="table-warning">
+
+                                                                    <td>@sayac</td>
+                                                                    <td>@item.AmountOfLoan</td>
+                                                                    <td>@item.CountofInstallements</td>
+                                                                    <td>@item.InterestRate</td>
+                                                                    <td>@item.TotalBackPaymnent</td>
+                                                                    <td>Beklemede</td>
+                                                                    <td>@item.CreatedDate</td>
+
+                                                                </tr>
+                                                            }
+                                                            sayac++;
+                                                        }
+
+                                                    }
+
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-left" id="success" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel110"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title white" id="myModalLabel110">
+                    Hesap Açma Ekranı
+                </h5>
+                <button type="button" class="close"
+                        data-bs-dismiss="modal" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-12"></div></<div>
+                        <div class="row">
+                            <div class="col-md-12 col-12"></div></<div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Hesap Adı</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group has-icon-left">
+                                            <div class="position-relative">
+                                                <input type="text" id="userId" hidden />
+                                                <input type="text" id="accountName" class="form-control"
+                                                       placeholder="Hesap Adı" id="first-name-icon">
+                                                <div class="form-control-icon">
+                                                    <i class="bi bi-person"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Para Birimi</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group has-icon-left">
+                                            <div class="position-relative">
+                                                <select id="currencyType" class="choices form-select">
+                                                    @*    <option value="0">Seçiniz...</option> *@
+                                                    <option value="1">TRY</option>
+                                                    <option value="2">USD</option>
+                                                    <option value="3">EUR</option>
+
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-12"></div></<div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button"
+                                                class="btn btn-light-secondary"
+                                                data-bs-dismiss="modal">
+                                            <i class="bx bx-x d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">Vazgeç</span>
+                                        </button>
+
+                                        <button type="button" class="btn btn-success ml-1" onclick="createAccount()"
+                                                data-bs-dismiss="modal">
+                                            <i class="bx bx-check d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">Tamamla</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showCreateModal(e) {
+        console.log(e);
+        document.getElementById("userId").value = e;
+
+    }
+
+    function createAccount() {
+
+        var data = {
+
+            AccountName: document.getElementById("accountName").value,
+            Currency: document.getElementById("currencyType").value,
+            UserID: document.getElementById("userId").value
+
+        };
+        console.log(data);
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Customer/CreateCustomerAccount",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (result) {
+                console.log(result);
+                if (result.isSuccess == true) {
+                    Swal.fire({
+                        title: "İşlem başarılı!",
+                        text: "Hesap açma işlemi başarılı bir şekilde gerçekleştirildi!",
+                        icon: "success"
+                    });
+                    var tableElement = $('#table tbody');
+
+
+                    var row = '<tr>' +
+                        '<td>' + result.accountName + '</td>' +
+                        '<td>' + result.accountNumber + '</td>' +
+                        '<td>' + result.accountType + '</td>' +
+                        '<td>' + result.currency + '</td>' +
+                        '<td>' + new Date(result.createdDate).toLocaleDateString() + '</td>' +
+                        '<td>' + result.balance + ' ₺</td>' +
+                        '</tr>';
+                    tableElement.append(row);
+
+
+
+
+
+                }
+                else {
+                    var error = "";
+                    result.messages.forEach(function (element) {
+                        error += element + " <br>";
+                    });
+                    console.log(error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Hata...",
+                        html: error
+
+                    });
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.error("Hata:", error);
+                alert("Güncelleme işlemi başarısız oldu.");
+            }
+        });
+
+
+    }
+</script>

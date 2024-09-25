@@ -1,0 +1,298 @@
+﻿@{
+    ViewData["Title"] = "CreditApplication";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<div class="page-title">
+    <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Kredi Başvurusu Yap</h3>
+        </div>
+        <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/User/Home/Index">Anasayfa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Profil</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-8 col-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Kredi Bilgileri</h4>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Kredi Tutarı</label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group has-icon-left">
+                                <div class="position-relative">
+                                    <input type="text" id="creditAmount" class="form-control"
+                                           placeholder="Kredi Tutarı" id="first-name-icon">
+                                    <div class="form-control-icon">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Taksit Sayısı</label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group has-icon-left">
+                                <div class="position-relative">
+                                    <select id="numberOfInstallements" class="choices form-select">
+
+                                        @for (int i = 1; i <= 24; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Aylık Faiz Oranı (%)</label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group has-icon-left">
+                                <div class="position-relative">
+                                    <input type="text" id="interestRate" class="form-control"
+                                           placeholder="Aylık Faiz Oranı (%)" value="5.69" disabled>
+                                    <div class="form-control-icon">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 d-flex justify-content-start">
+                            <button style="display:none;" id="btnAppCredit"
+                                    class="btn btn-success me-1 mb-1" data-bs-toggle="modal" data-bs-target="#success">
+                                Krediye Başvur
+                            </button>
+
+                        </div>
+                        <div class="col-9 d-flex justify-content-end">
+                            <button onclick="calculateCredit()" id="btnCalculate"
+                                    class="btn btn-primary me-1 mb-1">
+                                Hesapla
+                            </button>
+                            <button type="reset" onclick="newCalculate()"
+                                    class="btn btn-light-secondary me-1 mb-1">
+                                Yeni Sorgu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="table">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Taksit Sayısı</th>
+                                <th>Taksit Tutarı</th>
+                                <th>Faiz Ödemesi</th>
+                                <th>Anapara Ödemesi</th>
+                                <th>Kalan Anapara</th>
+                                <th>Vade Tarihi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="modal fade text-left" id="success" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel110"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title white" id="myModalLabel110">
+                    Kredi Hesaba Aktarımı
+                </h5>
+                <button type="button" class="close"
+                        data-bs-dismiss="modal" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-12"></div></<div>
+                        <div class="row">
+                            <div class="col-md-12 col-12"></div></<div>
+                                <div class="row">
+                                    <div class="col-md-12 col-12">
+                                        <label for="senderAccount">Alıcı Hesap</label>
+                                        <div class="form-group">
+                                            <select id="receiverAccount" class="choices form-select">
+
+                                                @foreach (var item in ViewBag.Accounts)
+                                                {
+                                                    <option value="@item.AccountID">@item.AccountNumber  - @item.AccountName - @item.Balance ₺</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-12"></div></<div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button"
+                                                class="btn btn-light-secondary"
+                                                data-bs-dismiss="modal">
+                                            <i class="bx bx-x d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">Vazgeç</span>
+                                        </button>
+
+                                        <button type="button" class="btn btn-success ml-1" onclick="createCredit()"
+                                                data-bs-dismiss="modal">
+                                            <i class="bx bx-check d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">Tamamla</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function calculateCredit() {
+        var data = {
+            AmountOfLoan: document.getElementById("creditAmount").value,
+            NumberofInstallement: document.getElementById("numberOfInstallements").value,
+            InterestRate: document.getElementById("interestRate").value
+        };
+        $.ajax({
+            type: "POST",
+            url: "/User/Credit/CalculateCredit",
+            contentType: "application/json", 
+            data: JSON.stringify(data),
+            success: function (result) {
+                console.log(result);
+                var tableElement = $('#table tbody');
+                tableElement.empty(); 
+                if (result[0].isSuccess == true) {
+
+                    for (i = 0; i < result.length; i++) {
+                        var row = '<tr>' +
+                            '<td>' + result[i].numberOfInstallements + '</td>' +
+                            '<td>' + result[i].amountOfInstallements + '</td>' +
+                            '<td>' + result[i].amountOfInterest + '</td>' +
+                            '<td>' + result[i].amountOfPrincipal + '</td>' +
+                            '<td>' + result[i].restOfPrincipal + '</td>' +
+                            '<td>' + result[i].expireDate + '</td>' +
+                            '</tr>';
+                        tableElement.append(row);
+                    }
+   
+                    document.getElementById("btnAppCredit").style = "display:block;"
+                    document.getElementById("btnCalculate").disabled = true;
+                    document.getElementById("creditAmount").disabled = true;
+                    document.getElementById("numberOfInstallements").disabled = true;
+                }
+                else {
+                    var error = "";
+                    result.messages.forEach(function (element) {
+                        error += element + " <br>";
+                    });
+                    console.log(error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Hata...",
+                        html: error
+
+                    });
+                }
+
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Hata...",
+                    html: error
+
+                });
+            }
+        });
+    }
+
+    function newCalculate() {
+        document.getElementById("btnAppCredit").style = "display:none;"
+        document.getElementById("btnCalculate").disabled = false;
+        document.getElementById("creditAmount").disabled = false;
+        document.getElementById("creditAmount").value = "";
+        document.getElementById("numberOfInstallements").disabled = false;
+
+        var tableElement = $('#table tbody');
+        tableElement.empty(); 
+    }
+    function createCredit() {
+        var data = {
+            AmountOfLoan: document.getElementById("creditAmount").value,
+            NumberofInstallement: document.getElementById("numberOfInstallements").value,
+            InterestRate: document.getElementById("interestRate").value,
+            PaymentAccountID: document.getElementById("receiverAccount").value,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/User/Credit/CreateCreditApplication",
+            contentType: "application/json", 
+            data: JSON.stringify(data), 
+            success: function (result) {
+               
+                if (result.isSuccess) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Başarılı",
+                        text: result.message
+                    });
+                } else {
+                    
+                    Swal.fire({
+                        icon: "error",
+                        title: "Hata...",
+                        html: result.message
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Hata:", error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Sunucu hatası",
+                    text: "Kredi oluşturma işlemi başarısız oldu. Lütfen daha sonra tekrar deneyin."
+                });
+            }
+        });
+    }
+
+</script>

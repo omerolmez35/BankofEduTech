@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+@using BankofEduTech.Core.Application.Features.Queries.AppUser.GetUserInfo
+@model GetUserInfoQueryResponse
+<div class="row">
+    <div class="col-6 col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body px-3 py-4-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="stats-icon purple">
+                            <i class="iconly-boldShow"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h6 class="text-muted font-semibold">Toplam Varlığınız</h6>
+                        <h6 class="font-extrabold mb-0">@Model.TotalBalance ₺</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body px-3 py-4-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="stats-icon blue">
+                            <i class="iconly-boldProfile"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h6 class="text-muted font-semibold">Toplam Borcunuz</h6>
+                        <h6 class="font-extrabold mb-0">@Model.TotalDebt ₺</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body px-3 py-4-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="stats-icon green">
+                            <i class="iconly-boldAdd-User"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h6 class="text-muted font-semibold">Vadesiz Hesaplar</h6>
+                        <h6 class="font-extrabold mb-0">@Model.TotalAccount</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body px-3 py-4-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="stats-icon red">
+                            <i class="iconly-boldBookmark"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h6 class="text-muted font-semibold">Geciken Ödemeler</h6>
+                        <h6 class="font-extrabold mb-0">@Model.LatePayment</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

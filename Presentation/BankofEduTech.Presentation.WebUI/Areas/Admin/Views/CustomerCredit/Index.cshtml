@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+@using BankofEduTech.Core.Application.Features.Queries.CustomerCredit.GetCustomerCreditApplication
+@model List<GetCustomerCreditApplicationQueryResponse>
+<div class="card">
+    <div class="card-header">
+        Müşteri Listesi
+    </div>
+    <div class="card-body">
+        <table class="table table-striped" id="table1">
+            <thead>
+                <tr>
+                    <th>Ad</th>
+                    <th>Soyad</th>
+                    <th>Kredi Tutarı</th>
+                    <th>Taksit Sayısı</th>
+                    <th>Faiz Oranı (%)</th>
+                    <th>Geri Ödenecek Tutar</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Surname</td>
+                        <td>@item.AmountOfLoan</td>
+                        <td>@item.CountofInstallements</td>
+                        <td>@item.InterestRate</td>
+                        <td>@item.TotalBackPaymnent</td>
+                        <td><button onclick="resultCredit(1,@item.CreditID)" class="btn btn-success">ONAYLA</button></td>
+                        <td><button onclick="resultCredit(2,@item.CreditID)" class="btn btn-danger">REDDET</button></td>
+                    </tr>
+                }
+                @*          <tr>
+                <td>Graiden</td>
+                <td>vehicula.aliquet@semconsequat.co.uk</td>
+                <td>076 4820 8838</td>
+                <td>Offenburg</td>
+                <td>
+                <span class="badge bg-success">Active</span>
+                </td>
+                </tr>
+                *@
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function resultCredit(e, id) {
+        var userData = {
+            creditID: id,
+            creditStatus: e
+        };
+
+
+        Swal.fire({
+            title: 'Emin Misiniz?',
+            text: "Müşterinin kredisi onaylanıp kredi tutarı hesaba aktarılacaktır. Onaylıyor musunuz?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Evet',
+            cancelButtonText: 'Vazgeç'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/CustomerCredit/CreateCredit",
+                    contentType: "application/json",
+                    data: JSON.stringify(userData), 
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Başarılı",
+                                text: result.message
+                            }).then(() => {
+                                location.reload();
+                            });
+                            
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Hata...",
+                                html: result.message
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Hata:", error);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Sunucu hatası",
+                            text: "Kredi oluşturma işlemi başarısız oldu. Lütfen daha sonra tekrar deneyin."
+                        });
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // 'Vazgeç' butonuna tıklandığında
+                Swal.fire(
+                    'Cancelled',
+                    'İşlem iptal edildi.',
+                    'error'
+                );
+            }
+        });
+    }
+</script>

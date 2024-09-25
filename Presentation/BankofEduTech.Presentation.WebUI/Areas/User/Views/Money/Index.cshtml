@@ -1,0 +1,238 @@
+﻿@{
+    ViewData["Title"] = "Para Transeferi - Bank Of Edutech";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<section id="multiple-column-form">
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Para Transferi</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                    
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <label for="senderAccount">Gönderen Hesap</label>
+                                    <div class="form-group">
+                                        <select id="senderAccount" class="choices form-select">
+                                            
+                                            @foreach (var item in ViewBag.Accounts)
+                                        {
+                                            <option value="@item.AccountID">@item.AccountNumber  - @item.AccountName - @item.Balance ₺</option>
+                                        }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="AccountNumber"></label>
+                                        <input type="text" id="AccountNumber" class="form-control"
+                                               placeholder="Alıcı Hesap No" name="AccountNumber" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 text-start mt-3" style="align-content:center;">
+                                    <div class="form-group">
+                                        <button onclick="getAccountInfo()"
+                                                class="btn btn-primary me-1 mb-1">
+                                            Sorgula
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="ReceiverName">Alıcı Adı</label>
+                                        <input type="text" id="ReceiverName" class="form-control"
+                                               name="ReceiverName" placeholder="Alıcı Adı" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="ReceiverSurname">Alıcı Soyadı</label>
+                                        <input type="text" id="ReceiverSurname" class="form-control"
+                                               name="ReceiverSurname" placeholder="Alıcı Soyadı" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                           
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="Amount">Gönderilecek Tutar</label>
+                                        <input type="number" id="Amount" class="form-control"
+                                                name="Amount" placeholder="Gönderilecek Tutar">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+
+                                    
+                                    <div class="form-group">
+                                        <label for="TransactionFee">İşlem Ücreti (₺)</label>
+                                        <input type="number" id="TransactionFee" class="form-control"
+                                               name="TransactionFee" placeholder="İşlem Ücreti" disabled>
+                                    </div>
+                                    <input type="text" id="receiverID"  hidden/>
+                                </div>
+                            </div>
+
+
+
+                        <div class="row mt-2">
+
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label for="description" class="form-label">
+                                        Açıklama
+                                    </label>
+                                    <textarea class="form-control" id="description"
+                                              rows="3"></textarea>
+                                </div>
+                            </div>
+                     
+                        </div>
+
+                            <div class="row mt-2">
+           
+                                <div class="col-12 d-flex justify-content-end">
+                                    <button onclick="sendMoney()" id="btnSend"
+                                            class="btn btn-primary me-1 mb-1" disabled>
+                                        Gönder
+                                    </button>
+                                    <button type="reset"
+                                        class="btn btn-light-secondary me-1 mb-1" id ="btnClear" disabled>
+                                        Temizle
+                                    </button>
+                                </div>
+                            </div>
+
+
+
+                       
+                   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+
+    function getAccountInfo() {
+        var accountNumber = document.getElementById("AccountNumber").value;
+        var senderAccountNumberID = document.getElementById("senderAccount").value;
+
+        console.log(AccountNumber);
+        if (accountNumber.length > 0) { 
+            $.ajax({
+                url: '/User/Money/GetAccountInfo',
+                type: 'POST',
+                data: { AccountNumber: accountNumber, SenderAccountNumberID: senderAccountNumberID },
+                success: function (response) {
+                    if (response.isSuccess) {
+                        console.log(response);
+                        document.getElementById("ReceiverName").value = response.name;
+                        document.getElementById("ReceiverSurname").value = response.surname; 
+                        document.getElementById("receiverID").value = response.accountID;
+                        document.getElementById("btnSend").disabled = false;
+                        document.getElementById("btnClear").disabled = false;
+
+
+
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Hata...",
+                            text: response.message
+
+                        });
+                       
+
+                    }
+                },
+                error: function (error) {
+                  
+                    Swal.fire({
+                        icon: "error",
+                        title: "Hata...",
+                        html: error
+
+                    });
+                }
+            });
+        }
+        
+    }
+
+    function sendMoney() 
+    { 
+        var amount = document.getElementById("Amount").value;
+        if (amount > 5) {
+            var data = {
+                SenderID: document.getElementById("senderAccount").value,
+                ReceiverID: document.getElementById("receiverID").value,
+                Amount: document.getElementById("Amount").value,
+                Description: document.getElementById("description").value
+                    
+            };
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: "/User/Money/Index",
+                contentType: "application/json", 
+                data: JSON.stringify(data), 
+                success: function (result) {
+                    console.log(result);
+                    if (result.isSuccess == true) {
+                        Swal.fire({
+                            title: "İşlem başarılı!",
+                            text: "Transfer işlemi başarılı bir şekilde gerçekleştirildi!",
+                            icon: "success"
+                        });
+                        
+
+                    }
+                    else {
+                        var error = "";
+                        result.messages.forEach(function (element) {
+                            error += element + " <br>";
+                        });
+                        console.log(error);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Hata...",
+                            html: error
+
+                        });
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Hata...",
+                        html: error
+
+                    });
+                }
+            });
+        }
+        else 
+        {
+            Swal.fire({
+                icon: "error",
+                title: "Hata...",
+                text: "Minimum transfer tutarı 5 TL'dir!"
+
+            });
+        }
+        
+    }
+
+</script>

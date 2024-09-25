@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace BankofEduTech.Core.Domain.Entities
 {
-	internal class BaseEntity
+	public class BaseEntity
 	{
-	}
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime CreatedDate { get; set; }
+    }
 }

@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "Müşteri Listesi";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+@using BankofEduTech.Core.Application.Features.Queries.Customer.GetAllCustomer
+@model List<GetAllCustomerQueryResponse>
+<div class="card">
+    <div class="card-header">
+        Müşteri Listesi
+    </div>
+    <div class="card-body">
+        <table class="table table-striped" id="table1">
+            <thead>
+                <tr>
+                    <th>Ad</th>
+                    <th>Soyad</th>
+                    <th>Tc No</th>
+                    <th>Telefon</th>
+                    <th>E-Mail</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Surname</td>
+                        <td>@item.IdentityNumber</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.Email</td>
+                        <td><a href="/Admin/Customer/CustomerDetail?customerID=@item.Id" class="btn btn-primary">DETAY</a></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
