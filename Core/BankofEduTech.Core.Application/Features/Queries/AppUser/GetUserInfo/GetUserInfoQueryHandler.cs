@@ -30,7 +30,7 @@ namespace BankofEduTech.Core.Application.Features.Queries.AppUser.GetUserInfo
             try
             {
                 GetUserInfoQueryResponse response = new();
-                var accounts = await _unitOfWork.CustomerAccountReadRepository.Table.Include(x => x.CustomerCredit).Where(x => x.IsActive && x.AppUserID == Guid.Parse(_claimService.UserName)).ToListAsync();
+                var accounts = await _unitOfWork.CustomerAccountReadRepository.Table.Include(x => x.CustomerCredit).Where(x => x.IsActive && x.AppUserID == request.UserID).ToListAsync();
 
                 response.TotalAccount = accounts.Where(x => x.AccountType == Domain.Entities.AccountType.Vadesiz).Count();
                 response.TotalBalance = accounts.Where(x => x.AccountType == Domain.Entities.AccountType.Vadesiz).Sum(x => x.Balance);

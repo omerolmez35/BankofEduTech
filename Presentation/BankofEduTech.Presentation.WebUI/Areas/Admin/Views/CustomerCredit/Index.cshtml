@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/UserLayout/Index.cshtml";
 }
@@ -22,6 +21,7 @@
                     <th>Geri Ödenecek Tutar</th>
                     <th></th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -34,24 +34,62 @@
                         <td>@item.CountofInstallements</td>
                         <td>@item.InterestRate</td>
                         <td>@item.TotalBackPaymnent</td>
+                        <td><button onclick="paymentHistory('@item.UserID')" class="btn btn-success">ÖDEME GEÇMİŞİ</button></td>
                         <td><button onclick="resultCredit(1,@item.CreditID)" class="btn btn-success">ONAYLA</button></td>
                         <td><button onclick="resultCredit(2,@item.CreditID)" class="btn btn-danger">REDDET</button></td>
                     </tr>
                 }
-                @*          <tr>
-                <td>Graiden</td>
-                <td>vehicula.aliquet@semconsequat.co.uk</td>
-                <td>076 4820 8838</td>
-                <td>Offenburg</td>
-                <td>
-                <span class="badge bg-success">Active</span>
-                </td>
-                </tr>
-                *@
             </tbody>
         </table>
     </div>
 </div>
+
+
+
+
+<div class="modal fade text-left" id="success" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel110"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title white" id="myModalLabel110">
+                    Müşteri Ödeme Geçmişi
+                </h5>
+                <button type="button" class="close"
+                        data-bs-dismiss="modal" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-12"></div></<div>
+                        <div id="table">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Taksit Sayısı</th>
+                                            <th>Taksit Tutarı</th>
+                                            <th>Ödeme Durumu</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 <script>
     function resultCredit(e, id) {
@@ -76,7 +114,7 @@
                     type: "POST",
                     url: "/Admin/CustomerCredit/CreateCredit",
                     contentType: "application/json",
-                    data: JSON.stringify(userData), 
+                    data: JSON.stringify(userData),
                     success: function (result) {
                         if (result.isSuccess) {
                             Swal.fire({
@@ -86,7 +124,7 @@
                             }).then(() => {
                                 location.reload();
                             });
-                            
+
                         } else {
                             Swal.fire({
                                 icon: "error",
@@ -111,6 +149,57 @@
                     'İşlem iptal edildi.',
                     'error'
                 );
+            }
+        });
+    }
+
+    function paymentHistory(e) {
+        $.ajax({
+            url: '/Admin/Customer/GetCustomerCreditPaidPayments?userID=' + e,  
+            type: 'GET',  
+            success: function (response) {  
+                if(response.length > 0)
+                {
+                    var tableElement = $('#table tbody');
+                    tableElement.empty();
+                    for (i = 0; i < response.length; i++) {
+
+                        if (response[i].isLate == true) {
+                            var row = '<tr class="table-danger">' +
+                                '<td>' + response[i].numberOfInstallements + '</td>' +
+                                '<td>' + response[i].amountOfInstallements + '</td>' +
+                                '<td>Gecikmeli</td>' +
+                                '</tr>';
+                        }
+                        else
+                        {
+                            var row = '<tr class="table-success">' +
+                                '<td>' + response[i].numberOfInstallements + '</td>' +
+                                '<td>' + response[i].amountOfInstallements + '</td>' +
+                                '<td>Zamanında Ödendi</td>' +
+                                '</tr>';
+                        }
+                    
+                        tableElement.append(row);
+                        $('#success').modal('show');
+                    }
+                }
+                else
+                {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Bulunamadı",
+                        text: "Müşteriye ait ödeme geçmişi bulunamadı."
+                    });
+                }
+                
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Sunucu hatası",
+                    text: "Sorgulama işlemi başarısız oldu. Lütfen daha sonra tekrar deneyin."
+                });
             }
         });
     }

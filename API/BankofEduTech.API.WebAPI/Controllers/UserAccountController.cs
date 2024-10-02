@@ -65,9 +65,9 @@ namespace BankofEduTech.API.WebAPI.Controllers
         }
 
         [HttpGet("GetUserInfo")]
-        public async Task<IActionResult> GetUserInfo()
+        public async Task<IActionResult> GetUserInfo(Guid userID)
         {
-            var result = await _mediator.Send(new GetUserInfoQueryRequest());
+            var result = await _mediator.Send(new GetUserInfoQueryRequest(userID));
             return Ok(result);
         }
     }

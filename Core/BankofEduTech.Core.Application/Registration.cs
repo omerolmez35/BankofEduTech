@@ -21,21 +21,9 @@ namespace BankofEduTech.Core.Application
         public static void AddApplicationRegistration(this IServiceCollection services)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            // services.AddAutoMapper(typeof(GeneralMapping).Assembly);
             services.AddScoped<ClaimService>();
             services.AddAutoMapper(assembly);
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
-
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-       .AddCookie(options =>
-       {
-           options.LoginPath = "/Account/Login"; // Giriş sayfası
-           options.AccessDeniedPath = "/Account/AccessDenied"; // Yetkisiz erişim sayfası
-           options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Cookie geçerlilik süresi
-           options.SlidingExpiration = true; // Otomatik yenileme
-       });
-
 
         }
 

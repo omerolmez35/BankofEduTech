@@ -15,6 +15,7 @@ namespace BankofEduTech.Core.Application.Features.Queries.CustomerCredit.GetCust
         public int CountofInstallements { get; set; }
         public decimal InterestRate { get; set; }
         public int CreditID { get; set; }
+        public Guid UserID { get; set; }
 
     }
 }

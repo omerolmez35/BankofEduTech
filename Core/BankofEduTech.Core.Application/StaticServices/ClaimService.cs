@@ -42,6 +42,14 @@
                 }
             }
 
+
+            public string GivenUsername
+            {
+                get
+                {
+                    return TryGetClaimValue(ClaimTypes.GivenName, out string value) ? value : "System";
+                }
+            }
             public string Name
             {
                 get

@@ -35,12 +35,10 @@
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                              aria-labelledby="v-pills-home-tab">
                             <div class="card">
-                                @*   <div class="card-header">
-                                <h4 class="card-title">Profil Bilgileri</h4>
-                                </div> *@
+
                                 <div class="card-content">
                                     <div class="card-body">
-
+                                        <input type="text" value="@Model.AccountInfo.Username" id="Username" hidden />
                                         <div class="form-body">
                                             <div class="row">
                                                 <div class="col-md-4">
@@ -154,9 +152,7 @@
                              aria-labelledby="v-pills-profile-tab">
                             <div class="col-12">
                                 <div class="card">
-                                    @*   <div class="card-header">
-                                    <h4 class="card-title">Hoverable rows</h4>
-                                    </div> *@
+                               
                                     <div class="card-content">
                                         <button class="btn btn-primary" onclick="showCreateModal('@Model.AccountInfo.Id')" data-bs-toggle="modal" data-bs-target="#success">HESAP AÇ</button>
 
@@ -203,8 +199,6 @@
                                                             }
                                                         }
 
-
-
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -218,9 +212,6 @@
                              aria-labelledby="v-pills-messages-tab">
                             <div class="col-12">
                                 <div class="card">
-                                    @*   <div class="card-header">
-                                    <h4 class="card-title">Hoverable rows</h4>
-                                    </div> *@
                                     <div class="card-content">
 
                                         <div class="table-responsive">
@@ -445,6 +436,62 @@
     </div>
 </div>
 <script>
+    function updateUser() {
+
+        var data = {
+
+            Username: document.getElementById("Username").value,
+            Name: document.getElementById("Name").value,
+            Surname: document.getElementById("Surname").value,
+            City: document.getElementById("City").value,
+            District: document.getElementById("District").value,
+            Email: document.getElementById("Email").value,
+            PhoneNumber: document.getElementById("PhoneNumber").value
+
+        };
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Customer/UpdateCustomer",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (result) {
+                console.log(result);
+                if (result.isSuccess == true) {
+                    Swal.fire({
+                        title: "İşlem başarılı!",
+                        text: "Kuıllanıcı bilgileri başarıyla güncellendi!",
+                        icon: "success"
+                    });
+
+                }
+                else {
+                    var error = "";
+                    result.messages.forEach(function (element) {
+                        error += element + " <br>";
+                    });
+                    console.log(error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Hata...",
+                        html: error
+
+                    });
+                }
+
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Hata...",
+                    html: error
+
+                });
+            }
+        });
+
+    }
     function showCreateModal(e) {
         console.log(e);
         document.getElementById("userId").value = e;

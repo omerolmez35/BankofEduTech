@@ -10,12 +10,9 @@ namespace BankofEduTech.Core.Application.Features.Commands.UserCredit.CreateUser
 {
     public class CreateUserCreditCommandRequest : IRequest<CreateUserCreditCommandResponse>
     {
-        //public double AmountOfLoan { get; set; }
-        //public double InterestRate { get; set; }
-        //public int NumberofInstallement { get; set; }
+
         public int CreditID { get; set; }
         public CreditStatus CreditStatus { get; set; }
-        //public Guid UserID { get; set; }
 
     }
 }

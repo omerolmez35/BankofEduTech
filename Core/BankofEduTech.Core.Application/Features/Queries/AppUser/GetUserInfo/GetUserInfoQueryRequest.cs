@@ -10,5 +10,10 @@ namespace BankofEduTech.Core.Application.Features.Queries.AppUser.GetUserInfo
     public class GetUserInfoQueryRequest : IRequest<GetUserInfoQueryResponse>
     {
         public Guid UserID { get; set; }
+
+        public GetUserInfoQueryRequest(Guid userID)
+        {
+            UserID = userID;
+        }
     }
 }

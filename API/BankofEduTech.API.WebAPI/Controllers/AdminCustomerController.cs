@@ -2,6 +2,7 @@
 using BankofEduTech.Core.Application.Features.Queries.Customer.GetAllCustomer;
 using BankofEduTech.Core.Application.Features.Queries.CustomerCredit.GetApplicationByUserId;
 using BankofEduTech.Core.Application.Features.Queries.CustomerCredit.GetCustomerCreditApplication;
+using BankofEduTech.Core.Application.Features.Queries.CustomerCredit.GetPaidPaymentsForCustomer;
 using BankofEduTech.Core.Application.Features.Queries.UserAccount.GetAllUserAccountActiveUser;
 using BankofEduTech.Core.Application.Features.Queries.UserMoney.GetAccountInfo;
 using BankofEduTech.Core.Application.ViewModels;
@@ -47,6 +48,14 @@ namespace BankofEduTech.API.WebAPI.Controllers
         {
             var result = await _mediator.Send(new GetCustomerCreditApplicationQueryRequest());
 
+            return Ok(result);
+        }
+
+
+        [HttpGet("GetCustomerCreditPaidPayments")]
+        public async Task<IActionResult> GetCustomerCreditPaidPayments(Guid userID)
+        {
+            var result = await _mediator.Send(new GetPaidPaymentsForCustomerQueryRequest(userID));
             return Ok(result);
         }
     }

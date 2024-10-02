@@ -20,8 +20,6 @@ namespace BankofEduTech.Presentation.WebUI.SignalRHubs
         public async Task CurrentNotification()
         {
             var notifications = await _signalRService.GetCurrentNotificationAsync(_claimService.Surname);
-
-            // await Clients.Caller.SendAsync("ReceiveCurrentNotification", notifications);
         }
 
         public override async Task OnConnectedAsync()

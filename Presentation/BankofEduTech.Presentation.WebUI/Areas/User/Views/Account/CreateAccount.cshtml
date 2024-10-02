@@ -55,7 +55,6 @@
                             <div class="form-group has-icon-left">
                                 <div class="position-relative">
                                     <select id="currencyType" class="choices form-select">
-                                     @*    <option value="0">Seçiniz...</option> *@
                                         <option value="1">TRY</option>
                                         <option value="2">USD</option>
                                         <option value="3">EUR</option>
@@ -95,9 +94,9 @@
             console.log(data);
             $.ajax({
                 type: "POST",
-                url: "/User/Account/CreateAccount", // Doğru URL'yi kullandığınızdan emin olun
-                contentType: "application/json", // JSON formatında veri gönderiyoruz
-                data: JSON.stringify(data), // Veriyi JSON formatına çevirin
+                url: "/User/Account/CreateAccount", 
+                contentType: "application/json", 
+                data: JSON.stringify(data), 
                 success: function (result) {
                     console.log(result);
                     if (result.isSuccess == true) {
@@ -125,7 +124,6 @@
 
                 },
                 error: function (xhr, status, error) {
-                    // Hata durumunda yapılacaklar
                     console.error("Hata:", error);
                     alert("Güncelleme işlemi başarısız oldu.");
                 }

@@ -14,16 +14,18 @@ namespace BankofEduTech.Presentation.WebUI.Areas.User.Controllers
     public class HomeController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ClaimService _claimService;
 
-        public HomeController(IHttpClientFactory httpClientFactory)
+        public HomeController(IHttpClientFactory httpClientFactory, Uc claimService)
         {
             _httpClientFactory = httpClientFactory;
+            _claimService = claimService;
         }
 
         public async Task<IActionResult> Index()
         {
             var client = _httpClientFactory.CreateClient();
-            var resMsg = await client.GetAsync($"https://localhost:7244/api/UserAccount/GetUserInfo");
+            var resMsg = await client.GetAsync($"https://localhost:7244/api/UserAccount/GetUserInfo?userID={Guid.Parse(_claimService.Surname)}");
 
             if (resMsg.IsSuccessStatusCode)
             {

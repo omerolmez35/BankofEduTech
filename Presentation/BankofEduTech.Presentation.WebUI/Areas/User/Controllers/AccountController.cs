@@ -61,7 +61,7 @@ namespace BankofEduTech.Presentation.WebUI.Areas.User.Controllers
         [HttpPost]
         public async Task<IActionResult> Index([FromBody] UpdateAppUserCommandRequest request)
         {
-
+            request.Username = _claimService.GivenUsername;
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(request);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");

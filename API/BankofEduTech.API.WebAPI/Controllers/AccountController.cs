@@ -33,9 +33,7 @@ namespace BankofEduTech.API.WebAPI.Controllers
         [HttpPost("UpdateUser")]
         public async Task<IActionResult> UpdateUser(UpdateAppUserCommandRequest request)
         {
-         //   _context.CustomerAccounts.Where
 
-            request.Username = User.Identity.Name;
             var result = await _mediator.Send(request);
             return Ok(result);
         }
