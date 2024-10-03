@@ -83,7 +83,7 @@ namespace BankofEduTech.API.WebAPI
             RecurringJob.AddOrUpdate<BackgroundPaymentService>(
                 "SendPaymentEmailService",
                 service => service.SendEmailUpcomingPayment(),
-                Cron.Minutely());
+                Cron.Daily());
             app.UseMiddleware<RequestLoggingMiddleware>();
             await SeedDatabaseAsync(app);
 

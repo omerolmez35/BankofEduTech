@@ -11,7 +11,7 @@
 <script type="text/javascript">
 
     $(document).on('click', '.mark-as-read', function (event) {
-        event.preventDefault(); // Varsayılan davranışı engelle
+        event.preventDefault(); 
         const $this = $(this);
 
         notification.classList.remove('unread');
@@ -42,21 +42,30 @@
         $("#notificationList").empty();
 
         console.log(notifications);
-        for (let i = 0; i < 3; i++) {
-            const notification = notifications[i];
+        if (notifications.length > 0) {
+            for (let i = 0; i < 3; i++) {
+                const notification = notifications[i];
 
-            const notificationItem = `
-                            <li class="dropdown-item notification-item d-flex align-items-start ${notification.isRead ? 'notification-read' : 'notification-unread'}">
-                                <a href="#" class="flex-grow-1">
-                                    <i class="bi bi-envelope me-2"></i>
-                                    <span class="notification-message">${notification.message}</span>
-                                </a>
-                                <a href="#" class="mark-as-read text-muted small" data-read="${notification.isRead}">Okundu olarak işaretle</a>
-                            </li>
-                        `;
+                const notificationItem = `
+                                <li class="dropdown-item notification-item d-flex align-items-start ${notification.isRead ? 'notification-read' : 'notification-unread'}">
+                                    <a href="#" class="flex-grow-1">
+                                        <i class="bi bi-envelope me-2"></i>
+                                        <span class="notification-message">${notification.message}</span>
+                                    </a>
 
+                                </li>
+                            `;
+
+                $("#notificationList").append(notificationItem);
+            }
+        }
+        else 
+        {
+                      
+            const notificationItem = '<li><a class="dropdown-item" href = "#" >Yeni bildirim yok. </a></li>'
             $("#notificationList").append(notificationItem);
         }
+        
 
     });
 </script>
