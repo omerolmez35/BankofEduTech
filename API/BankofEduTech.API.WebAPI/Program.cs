@@ -61,7 +61,6 @@ namespace BankofEduTech.API.WebAPI
             });
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -74,23 +73,20 @@ namespace BankofEduTech.API.WebAPI
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequiredLength = 8;
-                //options.Password.RequiredUniqueChars = 1;
-                //options.User.AllowedUserNameCharacters = "abcdefgğhijklmnopqrstuüvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/";
+
             }).AddDefaultTokenProviders().AddRoles<AppRole>().AddEntityFrameworkStores<BankofEduTechContext>().AddErrorDescriber<CustomIdentityValidator>();
 
 
             var app = builder.Build();
             app.UseHangfireDashboard();
 
-            // Recurring job eklemek
             RecurringJob.AddOrUpdate<BackgroundPaymentService>(
                 "SendPaymentEmailService",
                 service => service.SendEmailUpcomingPayment(),
-                Cron.Daily);
+                Cron.Minutely());
             app.UseMiddleware<RequestLoggingMiddleware>();
             await SeedDatabaseAsync(app);
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
